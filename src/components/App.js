@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import logo from './logo.svg';
-import './App.css';
+import logo from '../logo.svg';
+import '../App.css';
 
 class App extends Component {
-  render() {
+  render() {    
     return (
       <div className="App">
         <header className="App-header">
@@ -12,6 +12,9 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <h1>Redux Saga</h1>
+        {this.props.starWars.people.map((person, i) => (
+          <h4 key={i}>{person.name}</h4>
+        ))}
         <button>Load More</button>
       </div>
     );
