@@ -4,7 +4,19 @@ import logo from '../logo.svg';
 import '../App.css';
 
 class App extends Component {
-  render() {    
+  state = { open: false };
+
+  handleFetchClick = () => {
+    this.props.fetchStarWarsRequest();
+    this.setState({ open: true });
+  };
+
+  handleConfirmClick = () => {
+    this.props.confirmFetchRequest();
+    this.setState({ open: false });
+  }
+
+  render() {
     return (
       <div className="App">
         <header className="App-header">
@@ -15,7 +27,12 @@ class App extends Component {
         {this.props.starWars.people.map((person, i) => (
           <h4 key={i}>{person.name}</h4>
         ))}
-        <button>Load More</button>
+        <div
+          className="modal"
+          style={!this.state.open ? { display: 'none' } : {}}>
+          <button onClick={this.handleConfirmClick}>Confirm</button>
+        </div>
+        <button onClick={this.handleFetchClick}>Load More</button>
       </div>
     );
   }
