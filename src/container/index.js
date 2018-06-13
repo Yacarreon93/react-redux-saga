@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import App from '../components/App';
 import { 
   fetchStarWarsRequest,
+  fetchStarWarsPlanetsRequest,
   confirmFetchRequest
 } from '../actions';
 
@@ -11,6 +12,7 @@ const mapStateToProps = ({ starWars }) => ({ starWars });
 const bindActionsToDispatch = dispatch => (
   {
     fetchStarWarsRequest: () => dispatch(fetchStarWarsRequest()),
+    fetchStarWarsPlanetsRequest: () => dispatch(fetchStarWarsPlanetsRequest()),
     confirmFetchRequest: () => dispatch(confirmFetchRequest())
   }
 );

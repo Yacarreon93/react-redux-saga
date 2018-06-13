@@ -6,10 +6,10 @@ import '../App.css';
 class App extends Component {
   state = { open: false };
 
-  handleFetchClick = () => {
-    this.props.fetchStarWarsRequest();
-    this.setState({ open: true });
-  };
+  // handleFetchClick = () => {
+  //   this.props.fetchStarWarsRequest();
+  //   this.setState({ open: true });
+  // };
 
   handleConfirmClick = () => {
     this.props.confirmFetchRequest();
@@ -24,15 +24,23 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <h1>Redux Saga</h1>
-        {this.props.starWars.people.map((person, i) => (
-          <h4 key={i}>{person.name}</h4>
-        ))}
+        <div>
+          {this.props.starWars.people.map((person, i) => (
+            <h4 key={i}>{person.name}</h4>
+          ))}
+        </div>
+        <div>
+          {this.props.starWars.planets.map((planet, i) => (
+            <h4 key={i}>{planet.name}</h4>
+          ))}
+        </div>
         <div
           className="modal"
           style={!this.state.open ? { display: 'none' } : {}}>
           <button onClick={this.handleConfirmClick}>Confirm</button>
         </div>
-        <button onClick={this.handleFetchClick}>Load More</button>
+        <button onClick={this.props.fetchStarWarsRequest}>Load More People</button>
+        <button onClick={this.props.fetchStarWarsPlanetsRequest}>Load More Planets</button>
       </div>
     );
   }
