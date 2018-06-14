@@ -4,7 +4,8 @@ import App from '../components/App';
 import { 
   fetchStarWarsRequest,
   fetchStarWarsPlanetsRequest,
-  confirmFetchRequest
+  confirmFetchRequest,
+  queueChannelRequest,
 } from '../actions';
 
 const mapStateToProps = ({ starWars }) => ({ starWars });
@@ -13,7 +14,8 @@ const bindActionsToDispatch = dispatch => (
   {
     fetchStarWarsRequest: () => dispatch(fetchStarWarsRequest()),
     fetchStarWarsPlanetsRequest: () => dispatch(fetchStarWarsPlanetsRequest()),
-    confirmFetchRequest: () => dispatch(confirmFetchRequest())
+    confirmFetchRequest: () => dispatch(confirmFetchRequest()),
+    queueChannelRequest: () => dispatch(queueChannelRequest()),
   }
 );
 

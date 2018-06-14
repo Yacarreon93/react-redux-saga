@@ -1,4 +1,4 @@
-import { call, put, take } from 'redux-saga/effects';
+import { call, put, take, actionChannel } from 'redux-saga/effects';
 
 import * as TYPES from '../types';
 
@@ -16,6 +16,10 @@ export const confirmFetchRequest = () => ({
   type: TYPES.CONFIRMATION
 })
 
+export const queueChannelRequest = () => ({
+  type: TYPES.QUEUE_CHANNEL_REQUEST
+});
+
 export function* fetchPerson(action) {
   try {
     // console.log('entered');
@@ -32,6 +36,19 @@ export function* fetchPlanets(action) {
   try {
     const planets = yield call(api, 'https://swapi.co/api/planets/');
     yield put({ type: TYPES.FETCH_STAR_WARS_PLANETS_SUCCESS, data: planets.results });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export function* takeOneAtMost() {
+  try {
+    const chan = yield actionChannel(TYPES.QUEUE_CHANNEL_REQUEST);
+    for (let i = 1; i >= 1; i++) {
+      yield take(chan);
+      yield call(api, 'https://swapi.co/api/people/');
+      yield put({ type: TYPES.FETCH_STAR_WARS_SUCCESS, data: i });
+    }
   } catch (e) {
     console.log(e);
   }
