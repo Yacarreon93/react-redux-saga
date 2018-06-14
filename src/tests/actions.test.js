@@ -1,7 +1,8 @@
-import { call, put } from 'redux-saga/effects';
+import { call, put, fork, take, cancel } from 'redux-saga/effects';
+import { createMockTask } from 'redux-saga/utils';
 
 import * as TYPES from '../types';
-import { fetchPerson, api } from '../actions';
+import { api, fetchPerson, forkedFetchPerson } from '../actions';
 
 describe('fetchPerson', () => {
   const personGen = fetchPerson();
@@ -15,6 +16,26 @@ describe('fetchPerson', () => {
     const person = { results: [] };
     expect(personGen.next(person).value)
       .toEqual(put({ type: TYPES.FETCH_STAR_WARS_SUCCESS, data: person.results }));
+  });
+
+});
+
+describe('forkedFetchPerson', () => {
+  const forkedGen = forkedFetchPerson()
+
+  it ('forks the service', () => {
+    const expectedYield = fork(fetchPerson);
+    expect(forkedGen.next().value).toEqual(expectedYield);
+  });
+
+  it('waits for stop action and then cancels the service', () => {
+    const mockTask = createMockTask();
+
+    const expectedTakeYield = take('STOP_BACKGROUND_FETCH');
+    expect(forkedGen.next(mockTask).value).toEqual(expectedTakeYield);
+
+    const expectedCancelYield = cancel(mockTask);
+    expect(forkedGen.next().value).toEqual(expectedCancelYield);
   });
 
 });

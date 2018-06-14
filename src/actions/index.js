@@ -1,4 +1,4 @@
-import { call, put, take, actionChannel } from 'redux-saga/effects';
+import { call, put, fork, take, cancel, actionChannel } from 'redux-saga/effects';
 
 import * as TYPES from '../types';
 
@@ -52,4 +52,10 @@ export function* takeOneAtMost() {
   } catch (e) {
     console.log(e);
   }
+}
+
+export function* forkedFetchPerson() {
+  const syncPeople = yield fork(fetchPerson)
+  yield take('STOP_BACKGROUND_FETCH')
+  yield cancel(syncPeople)
 }
